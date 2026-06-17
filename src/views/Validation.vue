@@ -126,10 +126,10 @@ export default {
 
 #stac-browser .validation .results.card-columns {
   @include media-breakpoint-up(sm) {
-    column-count: 2;
+    column-count: 1;
   }
   @include media-breakpoint-up(lg) {
-    column-count: 3;
+    column-count: 1;
   }
   @include media-breakpoint-up(xxxl) {
     column-count: 4;

@@ -1,5 +1,5 @@
 module.exports = {
-    catalogUrl: "https://storage.googleapis.com/swhm-stac-data/catalog.json",
+    catalogUrl: "https://storage.googleapis.com/swmh-ee-layers/stac/stac/collection.json",
     catalogTitle: "STAC Browser",
     allowExternalAccess: true, // Must be true if catalogUrl is not given
     allowedDomains: [],
@@ -28,15 +28,15 @@ module.exports = {
     ],
     apiCatalogPriority: null,
     useTileLayerAsFallback: true,
-    displayGeoTiffByDefault: true,
+    displayGeoTiffByDefault: false,
     buildTileUrlTemplate: ({href, asset}) => "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url=" + encodeURIComponent(href),
     stacProxyUrl: null,
     pathPrefix: "/",
-    historyMode: "history",
+    historyMode: "hash",
     cardViewMode: "list",
     // cardViewSort: null
-    showKeywordsInItemCards: true,
-    showKeywordsInCatalogCards: true,
+    showKeywordsInItemCards: false,
+    showKeywordsInCatalogCards: false,
     showThumbnailsAsAssets: true,
     geoTiffResolution: 128,
     redirectLegacyUrls: false,

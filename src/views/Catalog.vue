@@ -1,29 +1,5 @@
 <template>
   <div class="catalog" :key="data.id">
-    <!-- Main Header (for non-root catalogs) -->
-    <div class="main-header" v-if="!isRoot">
-      <div class="container">
-        <div class="breadcrumb-tech">
-          <span>CATALOG</span> / <span class="accent">{{ title }}</span>
-        </div>
-        <div class="d-md-flex justify-content-between align-items-end">
-          <div>
-            <h1 class="item-title">{{ title }}</h1>
-            <div class="d-flex align-items-center gap-2">
-              <span class="badge badge-tech badge-status">{{ data.type || 'CATALOG' }}</span>
-              <span class="text-muted small">ID: {{ data.id }}</span>
-            </div>
-          </div>
-          <div class="mt-3 mt-md-0">
-            <div class="btn-group shadow-sm">
-              <a class="btn btn-tech btn-tech-outline" :href="url" target="_blank">JSON Source</a>
-              <StacLink v-if="parentLink" :data="parentLink" class="btn btn-tech btn-tech-outline">Up</StacLink>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="ground-layer">
       <!-- Viewport Section: Description -->
       <section class="viewport-section mb-4" v-if="data.description">
@@ -170,7 +146,6 @@ export default {
     Metadata: () => import('../components/Metadata.vue'),
     Providers: () => import('../components/Providers.vue'),
     ReadMore,
-    StacLink: () => import('../components/StacLink.vue'),
     Thumbnails: () => import('../components/Thumbnails.vue')
   },
   mixins: [

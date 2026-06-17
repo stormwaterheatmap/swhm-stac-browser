@@ -3,6 +3,7 @@
     <header>
       <h2 class="title mr-2">{{ $tc('stacItem', items.length ) }}</h2>
       <b-badge v-if="itemCount !== null" pill variant="secondary" class="mr-4">{{ itemCount }}</b-badge>
+      <ViewButtons class="mr-2" v-model="view" />
       <SortButtons v-if="!api && items.length > 1" v-model="sort" />
     </header>
 
@@ -27,9 +28,9 @@
 
     <section class="list">
       <Loading v-if="loading" fill top />
-      <b-card-group v-if="chunkedItems.length > 0" columns>
+      <component :is="cardsComponent" v-if="chunkedItems.length > 0" v-bind="cardsComponentProps">
         <Item v-for="item in chunkedItems" :item="item" :key="item.href" />
-      </b-card-group>
+      </component>
       <b-alert v-else :variant="hasFilters ? 'warning' : 'info'" show>
         <template v-if="hasFilters">{{ $t('search.noItemsFound') }}</template>
         <template v-else>{{ $t('items.noneAvailableForCollection') }}</template>
@@ -45,6 +46,7 @@
 import Item from './Item.vue';
 import Loading from './Loading.vue';
 import Pagination from './Pagination.vue';
+import ViewMixin from './ViewMixin';
 import { BCollapse, BIconSearch } from "bootstrap-vue";
 import Utils from '../utils';
 import STAC from '../models/stac';
@@ -61,6 +63,9 @@ export default {
     Pagination,
     SortButtons: () => import('./SortButtons.vue')
   },
+  mixins: [
+    ViewMixin
+  ],
   props: {
     items: {
       type: Array,

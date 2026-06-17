@@ -5,9 +5,8 @@
       <b-card-title>
         <StacLink :data="[data, item]" class="stretched-link" />
       </b-card-title>
-      <b-card-text v-if="fileFormats.length > 0 || hasDescription || isDeprecated" class="intro">
+      <b-card-text v-if="hasDescription || isDeprecated" class="intro">
         <b-badge v-if="isDeprecated" variant="warning" class="mr-1 mt-1 deprecated">{{ $t('deprecated') }}</b-badge>
-        <b-badge v-for="format in fileFormats" :key="format" variant="secondary" class="mr-1 mt-1 fileformat">{{ format | formatMediaType }}</b-badge>
         <template v-if="hasDescription">{{ data.properties.description | summarize }}</template>
       </b-card-text>
       <Keywords v-if="showKeywordsInItemCards && keywords.length > 0" :keywords="keywords" variant="primary" center />
@@ -27,7 +26,7 @@ import { mapState, mapGetters } from 'vuex';
 import ThumbnailCardMixin from './ThumbnailCardMixin';
 import StacLink from './StacLink.vue';
 import STAC from '../models/stac';
-import { formatTemporalExtent, formatTimestamp, formatMediaType } from '@radiantearth/stac-fields/formatters';
+import { formatTemporalExtent, formatTimestamp } from '@radiantearth/stac-fields/formatters';
 import Registry from '@radiantearth/stac-fields/registry';
 import Utils from '../utils';
 
@@ -41,7 +40,6 @@ export default {
   },
   filters: {
     summarize: text => Utils.summarizeMd(text, 150),
-    formatMediaType: value => formatMediaType(value, null, {shorten: true}),
     formatTemporalExtent,
     formatTimestamp
   },
@@ -65,12 +63,6 @@ export default {
         return [this.data.properties.start_datetime, this.data.properties.end_datetime];
       }
       return null;
-    },
-    fileFormats() {
-      if (this.data) {
-        return this.data.getFileFormats();
-      }
-      return [];
     },
     keywords() {
       if (this.data) {
@@ -144,6 +136,18 @@ export default {
       text-align: center;
       position: relative;
     }
+  }
+
+  // Space item cards apart in both list and grid (card-columns) views.
+  .card-list .item-card {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .card-columns .item-card {
+    margin-bottom: 1rem;
   }
 }
 </style>

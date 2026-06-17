@@ -28,57 +28,35 @@
       </div>
     </section>
 
-    <b-row>
-      <!-- Left Column: Assets & Links -->
-      <b-col lg="8" class="left">
+    <!-- Single full-width column: Assets stacked above the metadata panel -->
+    <div class="col">
+      <!-- Assets & Links -->
+      <div class="left">
         <h5 class="text-uppercase small font-weight-bold text-muted mb-3">Data Assets</h5>
         <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="shownAssets" @showAsset="showAsset" />
-        
+
         <div v-if="additionalLinks.length > 0" class="mt-4">
            <Links :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
         </div>
-        
+
         <!-- Collection Hierarchy Link -->
         <div v-if="collectionLink" class="mt-4">
            <h5 class="text-uppercase small font-weight-bold text-muted mb-3">Hierarchy</h5>
            <CollectionLink :link="collectionLink" />
         </div>
-      </b-col>
+      </div>
 
-      <!-- Right Column: Technical Specs & Metadata -->
-      <b-col lg="4" class="right">
-        
-        <!-- Tech Card: Geospatial Scope -->
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <h4>Geospatial Scope</h4>
-          </div>
-          <div class="data-grid">
-            <div class="data-row" v-if="data.properties.datetime">
-              <span class="data-label">Temporal</span>
-              <span class="data-value">{{ formatTime(data.properties.datetime) }}</span>
-            </div>
-            <div class="data-row" v-if="data.bbox">
-              <span class="data-label">Bounding Box</span>
-              <span class="data-value">
-                [{{ formatCoord(data.bbox[0]) }}, {{ formatCoord(data.bbox[1]) }}, 
-                 {{ formatCoord(data.bbox[2]) }}, {{ formatCoord(data.bbox[3]) }}]
-              </span>
-            </div>
-            <div class="data-row" v-if="data.id">
-              <span class="data-label">ID</span>
-              <span class="data-value">{{ data.id }}</span>
-            </div>
-          </div>
+      <!-- Technical Specs & Metadata -->
+      <div class="right mt-4">
+        <div class="metadata-panel">
+          <!-- Providers -->
+          <Providers v-if="data.properties.providers" :providers="data.properties.providers" class="mb-4" />
+
+          <!-- Additional Metadata -->
+          <Metadata :data="data" type="Item" :ignoreFields="ignoredMetadataFields" />
         </div>
-
-        <!-- Providers -->
-        <Providers v-if="data.properties.providers" :providers="data.properties.providers" class="mb-4" />
-
-        <!-- Additional Metadata -->
-        <Metadata :data="data" type="Item" :ignoreFields="ignoredMetadataFields" />
-      </b-col>
-    </b-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -289,6 +267,62 @@ export default {
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
     }
+  }
+
+  // Metadata groups stack in a single full-width column (instead of Bootstrap's
+  // multi-column .card-columns masonry) so each group — and its data tables
+  // (e.g. classification classes) — spans the full width. Covers both the
+  // asset metadata and the right-column metadata panel.
+  .metadata .card-columns {
+    column-count: 1;
+  }
+
+  .metadata .metadata-table,
+  .metadata .table-responsive,
+  .metadata .metadata-table .table {
+    width: 100%;
+  }
+
+  // Metadata panel — give the right-column Provider + Metadata sections a single
+  // ground-layer card (white, rounded, bordered, soft shadow). Scoped to .right
+  // so the metadata nested inside asset cards is untouched.
+  .right .metadata-panel {
+    background: $white;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow-sm;
+    padding: 1.25rem 1.5rem;
+    width: 100%;
+
+    // Section headings inside the panel
+    .providers > h2,
+    .metadata > h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    // First section/heading is flush with the top of the panel
+    > section:first-child > h2 {
+      margin-top: 0;
+    }
+
+    // Cards inside the panel are flush with the heading and each other,
+    // and the final section sits flush with the panel bottom
+    .metadata .card {
+      margin-top: 0;
+    }
+    .metadata .card:last-child,
+    > section:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Single full-width content column below the map. Drop the default Bootstrap
+  // .col gutter so it lines up with the full-width viewport section above.
+  > .col {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   // Layout Columns

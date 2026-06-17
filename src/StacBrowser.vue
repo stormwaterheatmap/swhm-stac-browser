@@ -7,7 +7,7 @@
     <div class="ground-layer">
       <!-- Header -->
       <header>
-        <div class="logo">{{ displayCatalogTitle }}</div>
+        <!-- <div class="logo">{{ displayCatalogTitle }}</div> -->
         <StacHeader @enableSidebar="sidebar = true" />
       </header>
       <!-- Content (Item / Catalog) -->
