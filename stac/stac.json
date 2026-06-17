@@ -1,0 +1,25 @@
+{
+  "stac_version": "1.0.0",
+  "type": "Catalog",
+  "id": "dummy-catalog-v1.0",
+  "title": "My Dummy STAC Catalog",
+  "description": "A sample STAC Catalog containing dummy data items for demonstration.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./stac.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "./stac.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "item",
+      "href": "./item.json",
+      "type": "application/json",
+      "title": "Sample Imagery Item"
+    }
+  ]
+}
