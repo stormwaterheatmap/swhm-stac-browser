@@ -1,0 +1,8 @@
+
+
+#stac-browser > footer .footer-links li a {
+  color: map-get($theme-colors, "secondary"); /* Or any color you prefer */
+  text-decoration: none; /* Removes the underline */
+  cursor: default; /* Changes the hand cursor back to an arrow */
+  pointer-events: none; /* Prevents the user from clicking it */
+}

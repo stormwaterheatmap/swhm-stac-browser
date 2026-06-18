@@ -1,5 +1,6 @@
+
 module.exports = {
-    catalogUrl: null,
+    catalogUrl: "https://storage.googleapis.com/swmh-ee-layers/stac/stac/collection.json",
     catalogTitle: "STAC Browser",
     catalogImage: null,
     allowExternalAccess: true, // Must be true if catalogUrl is not given
@@ -37,7 +38,7 @@ module.exports = {
     getMapSourceOptions: null,
     pathPrefix: "/",
     historyMode: "history",
-    cardViewMode: "cards",
+    cardViewMode: "list",
     cardViewSort: "asc",
     showKeywordsInItemCards: false,
     showKeywordsInCatalogCards: false,
@@ -50,9 +51,11 @@ module.exports = {
     crossOriginMedia: null,
     requestHeaders: {},
     requestQueryParameters: {},
-    socialSharing: ['email', 'bsky', 'mastodon', 'x'],
+    socialSharing: [],
     preprocessSTAC: null,
     authConfig: null,
     crs: {},
-    footerLinks: null
+    footerLinks: [
+  { label: "Copyright © The Nature Conservancy.", url: "https://www.nature.org" }
+]
 };
