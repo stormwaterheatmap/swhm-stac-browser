@@ -1,22 +1,48 @@
-name: Deploy Demo
+name: Deploy to GitHub Pages
 on:
   push:
     branches:
       - main
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# Permissions required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment, cancelling in-progress runs
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-      - uses: actions/checkout@v4
+          cache: 'npm'
       - run: npm ci
-      - run: npm run build -- --pathPrefix="/stac-browser" --historyMode=hash
-      - uses: peaceiris/actions-gh-pages@v3
+      # Path prefix must match the repo name so assets resolve at
+      # https://<owner>.github.io/<repo>/ ; hash history avoids 404s on refresh.
+      - name: Build
+        run: npm run build -- --pathPrefix="/${{ github.event.repository.name }}/" --historyMode=hash
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
-          exclude_assets: 'report.html'
-          user_name: 'STAC Browser CI'
-          user_email: matthias.mohr@radiant.earth
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
