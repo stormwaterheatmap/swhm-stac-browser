@@ -1,4 +1,3 @@
-
 module.exports = {
     catalogUrl: "https://storage.googleapis.com/swmh-ee-layers/stac/stac/collection.json",
     catalogTitle: "STAC Browser",
