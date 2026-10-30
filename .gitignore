@@ -37,3 +37,6 @@ pnpm-debug.log*
 
 # integration test outputs
 /tests/integration/generated/
+
+# SWHM
+_no_git*
