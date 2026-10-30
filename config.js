@@ -1,5 +1,5 @@
 export default {
-  catalogUrl: null,
+  catalogUrl: "https://storage.googleapis.com/swhm-ee/production/stac/collection.json",
   catalogTitle: null,
   catalogTitleAfterImage: null,
   catalogImage: null,
@@ -40,11 +40,17 @@ export default {
   displayOverviewsForChildren: false,
   maxDisplayPixels: null,
   buildTileUrlTemplate: null,
-  getMapSourceOptions: null,
+  // Don't smooth categorical layers: blended values between classes match no colormap entry and render as gaps.
+  getMapSourceOptions: async (type, options, asset) => {
+    if (type.name === "GeoTIFF" && asset.getMetadata("classification:classes")) {
+      options.interpolate = false;
+    }
+    return options;
+  },
   getStacLayerOptions: null,
   pathPrefix: "/",
   historyMode: "history",
-  cardViewMode: "cards",
+  cardViewMode: "list",
   showFavorites: true,
   defaultCollectionSort: "title",
   defaultItemSort: null,
@@ -60,7 +66,7 @@ export default {
   crossOriginMedia: null,
   requestHeaders: {},
   requestQueryParameters: {},
-  socialSharing: ['email', 'bsky', 'mastodon', 'x'],
+  socialSharing: [],
   preprocessSTAC: null,
   authConfig: null,
   transactions: 'auto',
