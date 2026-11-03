@@ -1,5 +1,5 @@
 export default {
-  catalogUrl: "https://storage.googleapis.com/swhm-ee/production/stac/collection.json",
+  catalogUrl: "https://storage.googleapis.com/swhm-ee/production/stac/layers/collection.json",
   catalogTitle: null,
   catalogTitleAfterImage: null,
   catalogImage: null,
