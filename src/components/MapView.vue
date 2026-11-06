@@ -255,7 +255,7 @@ export default {
             this.selection = {
               target: this.$refs.target,
               type: 'features',
-              items: features.getArray().map(f => writer.writeFeatureObject(f))
+              children: features.getArray().map(f => writer.writeFeatureObject(f))
             };
           }
         });
