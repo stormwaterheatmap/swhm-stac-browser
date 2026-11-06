@@ -148,6 +148,7 @@
   "features": {
     "empty": "No features available.",
     "noProperties": "No properties provided.",
+    "showItem": "Show item",
     "title": "Feature | Features"
   },
   "fullscreen": {

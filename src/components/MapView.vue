@@ -255,7 +255,16 @@ export default {
             this.selection = {
               target: this.$refs.target,
               type: 'features',
-              children: features.getArray().map(f => writer.writeFeatureObject(f))
+              children: features.getArray().map(f => {
+                const feature = writer.writeFeatureObject(f);
+                // The asset the feature comes from: relative links in its
+                // properties (e.g. `item`) resolve against this URL.
+                const asset = this.selector.getLayer(f)?.get('stac');
+                if (asset && typeof asset.getAbsoluteUrl === 'function') {
+                  feature.sourceUrl = asset.getAbsoluteUrl();
+                }
+                return feature;
+              })
             };
           }
         });

@@ -1,5 +1,5 @@
 export default {
-  catalogUrl: "https://stormwaterheatmap-data.org/stac/layers/collection.json",
+  catalogUrl: "https://stormwaterheatmap-data.org/stac/catalog.json",
   catalogTitle: null,
   catalogTitleAfterImage: null,
   catalogImage: null,
@@ -52,7 +52,7 @@ export default {
   historyMode: "history",
   cardViewMode: "list",
   showFavorites: true,
-  defaultCollectionSort: "title",
+  defaultCollectionSort: null,
   defaultItemSort: null,
   showKeywordsInItemCards: false,
   showKeywordsInCatalogCards: false,

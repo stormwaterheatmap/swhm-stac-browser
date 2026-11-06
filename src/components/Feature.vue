@@ -13,19 +13,24 @@
     <template v-else>
       <em>{{ $t('features.noProperties') }}</em>
     </template>
+    <b-button v-if="itemPath" :to="itemPath" variant="primary" size="sm">
+      {{ $t('features.showItem') }}
+    </b-button>
   </b-card>
 </template>
 
 <script>
 import { size } from 'stac-js/src/utils.js';
 import { defineComponent } from 'vue';
-import { BCard } from 'bootstrap-vue-next';
+import { mapGetters } from 'vuex';
+import { BButton, BCard } from 'bootstrap-vue-next';
 import { formatKey } from '@radiantearth/stac-fields/helper';
 import DataTypes from '@radiantearth/stac-fields/datatypes';
 
 export default defineComponent({
   name: "Feature",
   components: {
+    BButton,
     BCard
   },
   props: {
@@ -35,6 +40,20 @@ export default defineComponent({
     }
   },
   computed: {
+    ...mapGetters(['toBrowserPath']),
+    itemPath() {
+      // A feature's `item` property links to its STAC Item, relative to the
+      // file the feature comes from (sourceUrl, set by the map) or absolute.
+      const href = this.feature.properties?.item;
+      if (typeof href !== 'string') {
+        return null;
+      }
+      try {
+        return this.toBrowserPath(new URL(href, this.feature.sourceUrl).toString());
+      } catch {
+        return null;
+      }
+    },
     title() {
       return this.feature.properties?.title || this.feature.id || this.feature.properties?.id || this.feature.geometry?.type;
     },

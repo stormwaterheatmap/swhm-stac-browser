@@ -84,6 +84,7 @@ import Utils from '../utils';
 import { hasText, isObject, size } from 'stac-js/src/utils.js';
 import { addSchemaToDocument, createCatalogSchema } from '../schema-org';
 import { ItemCollection } from 'stac-js';
+import { geojsonMediaType } from 'stac-js/src/mediatypes';
 import DeprecationMixin from '../components/DeprecationMixin.js';
 import { BTab, BTabs, BCard } from 'bootstrap-vue-next';
 import { getIgnoredFields } from '../ignored-metadata.js';
@@ -248,6 +249,14 @@ export default defineComponent({
         }
         if (oldData?.id === newData?.id) {
           return;
+        }
+
+        // A GeoJSON asset with the role "overview" (e.g. a clickable grid of
+        // the items) is shown on the map by default, instead of the
+        // footprints of the items loaded so far.
+        const overview = this.assets.find(asset => asset.isType(geojsonMediaType) && asset.hasRole('overview'));
+        if (overview && this.selectedAssets.length === 0) {
+          this.selectedAssets = [overview];
         }
 
         // Carry the collection search over into the item filters, but only
